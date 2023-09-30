@@ -1,17 +1,11 @@
-import { StyleSheet, Text, View, Image, TouchableOpacity } from "react-native";
+import { StyleSheet, Text, View, TouchableOpacity } from "react-native";
 import React from "react";
 import { NativeStackScreenProps } from "@react-navigation/native-stack";
 import { RootStackParamList } from "../navigation/AppNavigation";
 import { AppScreen, CustomButton } from "../components/shared";
 import { theme } from "../theme";
 import { images } from "../assets/images";
-import Animated, {
-  BounceIn,
-  FadeInDown,
-  FadeInUp,
-  RotateInDownLeft,
-  SlideInLeft,
-} from "react-native-reanimated";
+import Animated, { FadeInDown, FadeInUp } from "react-native-reanimated";
 
 type Props = NativeStackScreenProps<RootStackParamList, "Welcome">;
 
