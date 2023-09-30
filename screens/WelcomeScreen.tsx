@@ -38,7 +38,7 @@ const WelcomeScreen = ({ navigation }: Props) => {
               fontWeight: "700",
             }}
           >
-            Advice AI App
+            Advice Me
           </Text>
           <Text
             style={{

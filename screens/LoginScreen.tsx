@@ -81,7 +81,7 @@ const LoginScreen = ({ navigation }: Props) => {
               justifyContent: "flex-end",
             }}
           >
-            <TouchableOpacity onPress={() => navigation.navigate("Dashboard")}>
+            <TouchableOpacity onPress={() => {}}>
               <Text
                 style={{
                   fontSize: 14,
@@ -100,7 +100,7 @@ const LoginScreen = ({ navigation }: Props) => {
         >
           <CustomButton
             text="Login"
-            onPress={() => {}}
+            onPress={() => navigation.navigate("Dashboard")}
             textStyle={{ fontSize: 16 }}
             buttonStyle={{ marginVertical: 20 }}
           />
