@@ -1,4 +1,4 @@
-import { StyleSheet, ViewStyle } from "react-native";
+import { ScrollView, StyleSheet, ViewStyle } from "react-native";
 import { StatusBar } from "expo-status-bar";
 import React from "react";
 import { SafeAreaView } from "react-native-safe-area-context";
@@ -7,9 +7,10 @@ import { theme } from "../../theme";
 interface Props {
   children: React.ReactNode;
   style?: ViewStyle;
+  isScrollable?: boolean;
 }
 
-const AppScreen = ({ children, style }: Props) => {
+const AppScreen = ({ children, style, isScrollable = false }: Props) => {
   return (
     <SafeAreaView
       style={{
@@ -21,8 +22,17 @@ const AppScreen = ({ children, style }: Props) => {
       }}
     >
       <StatusBar style="light" backgroundColor={theme.statusbarColor} />
-
-      {children}
+      {isScrollable ? (
+        <ScrollView
+          bounces={false}
+          showsVerticalScrollIndicator={false}
+          contentContainerStyle={{ flexGrow: 1 }}
+        >
+          {children}
+        </ScrollView>
+      ) : (
+        children
+      )}
     </SafeAreaView>
   );
 };

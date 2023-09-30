@@ -2,7 +2,7 @@ import { StyleSheet, Text, View, Image, TouchableOpacity } from "react-native";
 import React from "react";
 import { NativeStackScreenProps } from "@react-navigation/native-stack";
 import { RootStackParamList } from "../navigation/AppNavigation";
-import { AppScreen } from "../components/shared";
+import { AppScreen, CustomButton } from "../components/shared";
 import { theme } from "../theme";
 import { images } from "../assets/images";
 
@@ -53,24 +53,10 @@ const WelcomeScreen = ({ navigation }: Props) => {
         />
 
         <View style={{ flexDirection: "column", gap: 10, width: "100%" }}>
-          <TouchableOpacity
+          <CustomButton
+            text="Sign Up"
             onPress={() => navigation.navigate("Signup")}
-            style={{
-              alignItems: "center",
-              justifyContent: "center",
-              paddingVertical: 12,
-              paddingHorizontal: 20,
-              borderRadius: 10,
-              backgroundColor: theme.secColor,
-              width: "100%",
-            }}
-          >
-            <Text
-              style={{ fontWeight: "600", fontSize: 22, color: theme.textDark }}
-            >
-              Sign Up
-            </Text>
-          </TouchableOpacity>
+          />
 
           <View
             style={{

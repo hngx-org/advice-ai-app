@@ -6,4 +6,7 @@ export const theme = {
   textDark: "#3F3F46",
 
   secColor: "#FACC15",
+
+  inputBgColor: "#E5E7EB",
+  placeholderColor: "#94A3B8",
 };
