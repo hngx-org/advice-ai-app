@@ -38,7 +38,7 @@ const LoginScreen = ({ navigation }: Props) => {
 
       <Text
         style={{
-          fontSize: 36,
+          fontSize: 32,
           color: theme.secColor,
           textAlign: "center",
           fontWeight: "700",
