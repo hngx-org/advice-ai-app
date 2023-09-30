@@ -10,6 +10,7 @@ import {
 } from "../components/shared";
 import { images } from "../assets/images";
 import { theme } from "../theme";
+import Animated, { FadeInDown, FadeInUp } from "react-native-reanimated";
 
 type Props = NativeStackScreenProps<RootStackParamList, "Signup">;
 
@@ -18,7 +19,8 @@ const SignupScreen = ({ navigation }: Props) => {
     <AppScreen isScrollable={true}>
       <BackButton />
 
-      <View
+      <Animated.View
+        entering={FadeInUp.delay(100).duration(500).springify()}
         style={{
           alignItems: "center",
           justifyContent: "center",
@@ -34,9 +36,10 @@ const SignupScreen = ({ navigation }: Props) => {
             marginBottom: 10,
           }}
         />
-      </View>
+      </Animated.View>
 
-      <Text
+      <Animated.Text
+        entering={FadeInUp.delay(100).duration(500).springify()}
         style={{
           fontSize: 32,
           color: theme.secColor,
@@ -46,7 +49,7 @@ const SignupScreen = ({ navigation }: Props) => {
         }}
       >
         Sign Up
-      </Text>
+      </Animated.Text>
 
       <View
         style={{
@@ -56,60 +59,78 @@ const SignupScreen = ({ navigation }: Props) => {
           paddingHorizontal: 24,
         }}
       >
-        <InputField label="Name" placeholder="Enter your full name" />
+        <Animated.View entering={FadeInDown.delay(0).duration(500).springify()}>
+          <InputField label="Name" placeholder="Enter your full name" />
+        </Animated.View>
 
-        <InputField
-          label="Email Address"
-          placeholder="Enter your email address"
-        />
-
-        <InputField
-          label="Password"
-          placeholder="Enter your password"
-          secureTextEntry
-        />
-
-        <InputField
-          label="Confirm Password"
-          placeholder="Enter your password"
-          secureTextEntry
-        />
-
-        <CustomButton
-          text="Sign Up"
-          onPress={() => {}}
-          textStyle={{ fontSize: 16 }}
-          buttonStyle={{ marginVertical: 20 }}
-        />
-
-        <View
-          style={{
-            flexDirection: "row",
-            justifyContent: "center",
-          }}
+        <Animated.View
+          entering={FadeInDown.delay(200).duration(500).springify()}
         >
-          <Text
+          <InputField
+            label="Email Address"
+            placeholder="Enter your email address"
+          />
+        </Animated.View>
+
+        <Animated.View
+          entering={FadeInDown.delay(400).duration(500).springify()}
+        >
+          <InputField
+            label="Password"
+            placeholder="Enter your password"
+            secureTextEntry
+          />
+        </Animated.View>
+
+        <Animated.View
+          entering={FadeInDown.delay(600).duration(500).springify()}
+        >
+          <InputField
+            label="Confirm Password"
+            placeholder="Enter your password"
+            secureTextEntry
+          />
+        </Animated.View>
+
+        <Animated.View
+          entering={FadeInDown.delay(800).duration(500).springify()}
+        >
+          <CustomButton
+            text="Sign Up"
+            onPress={() => navigation.navigate("Dashboard")}
+            textStyle={{ fontSize: 16 }}
+            buttonStyle={{ marginVertical: 20 }}
+          />
+
+          <View
             style={{
-              fontSize: 14,
-              color: theme.textDark,
-              fontWeight: "400",
+              flexDirection: "row",
+              justifyContent: "center",
             }}
           >
-            Already have an account?{" "}
-          </Text>
-
-          <TouchableOpacity onPress={() => navigation.navigate("Login")}>
             <Text
               style={{
                 fontSize: 14,
-                color: theme.secColor,
-                fontWeight: "600",
+                color: theme.textDark,
+                fontWeight: "400",
               }}
             >
-              Login
+              Already have an account?{" "}
             </Text>
-          </TouchableOpacity>
-        </View>
+
+            <TouchableOpacity onPress={() => navigation.navigate("Login")}>
+              <Text
+                style={{
+                  fontSize: 14,
+                  color: theme.secColor,
+                  fontWeight: "600",
+                }}
+              >
+                Login
+              </Text>
+            </TouchableOpacity>
+          </View>
+        </Animated.View>
       </View>
     </AppScreen>
   );

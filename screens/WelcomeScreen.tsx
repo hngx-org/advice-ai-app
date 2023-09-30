@@ -5,6 +5,13 @@ import { RootStackParamList } from "../navigation/AppNavigation";
 import { AppScreen, CustomButton } from "../components/shared";
 import { theme } from "../theme";
 import { images } from "../assets/images";
+import Animated, {
+  BounceIn,
+  FadeInDown,
+  FadeInUp,
+  RotateInDownLeft,
+  SlideInLeft,
+} from "react-native-reanimated";
 
 type Props = NativeStackScreenProps<RootStackParamList, "Welcome">;
 
@@ -19,7 +26,10 @@ const WelcomeScreen = ({ navigation }: Props) => {
           alignItems: "center",
         }}
       >
-        <View style={{ flexDirection: "column", gap: 10, width: "100%" }}>
+        <Animated.View
+          entering={FadeInUp.delay(200).duration(500).springify()}
+          style={{ flexDirection: "column", gap: 10, width: "100%" }}
+        >
           <Text
             style={{
               fontSize: 42,
@@ -41,9 +51,10 @@ const WelcomeScreen = ({ navigation }: Props) => {
             A modern Artificial Intelligence Advice system that gives the advice
             you need
           </Text>
-        </View>
+        </Animated.View>
 
-        <Image
+        <Animated.Image
+          entering={FadeInDown.delay(400).duration(500).springify()}
           source={images.welcomeImage}
           style={{
             width: 300,
@@ -52,7 +63,10 @@ const WelcomeScreen = ({ navigation }: Props) => {
           }}
         />
 
-        <View style={{ flexDirection: "column", gap: 10, width: "100%" }}>
+        <Animated.View
+          entering={FadeInDown.delay(200).duration(500).springify()}
+          style={{ flexDirection: "column", gap: 10, width: "100%" }}
+        >
           <CustomButton
             text="Sign Up"
             onPress={() => navigation.navigate("Signup")}
@@ -86,7 +100,7 @@ const WelcomeScreen = ({ navigation }: Props) => {
               </Text>
             </TouchableOpacity>
           </View>
-        </View>
+        </Animated.View>
       </View>
     </AppScreen>
   );
