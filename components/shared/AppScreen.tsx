@@ -2,6 +2,7 @@ import { StyleSheet, ViewStyle } from "react-native";
 import { StatusBar } from "expo-status-bar";
 import React from "react";
 import { SafeAreaView } from "react-native-safe-area-context";
+import { theme } from "../../theme";
 
 interface Props {
   children: React.ReactNode;
@@ -11,9 +12,15 @@ interface Props {
 const AppScreen = ({ children, style }: Props) => {
   return (
     <SafeAreaView
-      style={{ flex: 1, paddingVertical: 8, paddingHorizontal: 16, ...style }}
+      style={{
+        flex: 1,
+        paddingVertical: 12,
+        paddingHorizontal: 24,
+        backgroundColor: theme.bgColor,
+        ...style,
+      }}
     >
-      <StatusBar style="auto" />
+      <StatusBar style="light" backgroundColor={theme.statusbarColor} />
 
       {children}
     </SafeAreaView>
