@@ -5,7 +5,7 @@ import { NavigationContainer } from "@react-navigation/native";
 import WelcomeScreen from "../screens/WelcomeScreen";
 import LoginScreen from "../screens/LoginScreen";
 import SignupScreen from "../screens/SignupScreen";
-import DashboardScreen from "../screens/DashboardScreen";
+import DashboardTabs from "./DashboardTabs";
 
 export type RootStackParamList = {
   Welcome: undefined;
@@ -26,7 +26,8 @@ const AppNavigation = () => {
         <Stack.Screen name="Welcome" component={WelcomeScreen} />
         <Stack.Screen name="Login" component={LoginScreen} />
         <Stack.Screen name="Signup" component={SignupScreen} />
-        <Stack.Screen name="Dashboard" component={DashboardScreen} />
+
+        <Stack.Screen name="Dashboard" component={DashboardTabs} />
       </Stack.Navigator>
     </NavigationContainer>
   );

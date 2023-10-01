@@ -5,16 +5,16 @@ import { AppScreen } from "../components/shared";
 import { RootTabParamList } from "../navigation/DashboardTabs";
 import { theme } from "../theme";
 
-type Props = NativeStackScreenProps<RootTabParamList, "Dashboard">;
+type Props = NativeStackScreenProps<RootTabParamList, "Settings">;
 
-const DashboardScreen = ({ navigation }: Props) => {
+const SettingsScreen = ({ navigation }: Props) => {
   return (
     <AppScreen>
-      <Text style={{ color: theme.textLight }}>DashboardScreen</Text>
+      <Text style={{ color: theme.textLight }}>SettingsScreen</Text>
     </AppScreen>
   );
 };
 
-export default DashboardScreen;
+export default SettingsScreen;
 
 const styles = StyleSheet.create({});
