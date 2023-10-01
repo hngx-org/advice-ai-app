@@ -9,7 +9,6 @@ import {
 import React from "react";
 import { NativeStackScreenProps } from "@react-navigation/native-stack";
 import { AppScreen } from "../components/shared";
-import { RootTabParamList } from "../navigation/DashboardTabs";
 import { theme } from "../theme";
 import { PlusIcon } from "react-native-heroicons/solid";
 import Animated, { FadeInUp } from "react-native-reanimated";

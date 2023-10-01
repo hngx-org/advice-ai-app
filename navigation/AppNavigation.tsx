@@ -6,10 +6,12 @@ import WelcomeScreen from "../screens/WelcomeScreen";
 import LoginScreen from "../screens/LoginScreen";
 import SignupScreen from "../screens/SignupScreen";
 import DashboardTabs from "./DashboardTabs";
+import { useAppSelector } from "../redux/store";
+import { selectLoginState } from "../redux/slices/authSlice";
 
 export type RootStackParamList = {
   Welcome: undefined;
-  Login: undefined;
+  Login: { email: string } | undefined;
   Signup: undefined;
   DashboardTab: undefined;
 };
@@ -17,17 +19,23 @@ export type RootStackParamList = {
 const Stack = createNativeStackNavigator<RootStackParamList>();
 
 const AppNavigation = () => {
+  const isLoggedIn = useAppSelector(selectLoginState);
+
   return (
     <NavigationContainer>
       <Stack.Navigator
         initialRouteName="Welcome"
         screenOptions={{ headerShown: false }}
       >
-        <Stack.Screen name="Welcome" component={WelcomeScreen} />
-        <Stack.Screen name="Login" component={LoginScreen} />
-        <Stack.Screen name="Signup" component={SignupScreen} />
-
-        <Stack.Screen name="DashboardTab" component={DashboardTabs} />
+        {isLoggedIn === false ? (
+          <>
+            <Stack.Screen name="Welcome" component={WelcomeScreen} />
+            <Stack.Screen name="Login" component={LoginScreen} />
+            <Stack.Screen name="Signup" component={SignupScreen} />
+          </>
+        ) : (
+          <Stack.Screen name="DashboardTab" component={DashboardTabs} />
+        )}
       </Stack.Navigator>
     </NavigationContainer>
   );
