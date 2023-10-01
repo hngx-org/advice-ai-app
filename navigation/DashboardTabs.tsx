@@ -1,6 +1,5 @@
 import { StyleSheet } from "react-native";
 import React from "react";
-import ChatsScreen from "../screens/ChatsScreen";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import SettingsScreen from "../screens/SettingsScreen";
 import {
@@ -12,6 +11,7 @@ import {
   Cog8ToothIcon,
 } from "react-native-heroicons/outline";
 import { theme } from "../theme";
+import ChatNavigation from "./ChatNavigation";
 
 export type RootTabParamList = {
   Chats: undefined;
@@ -22,35 +22,33 @@ const Tab = createBottomTabNavigator<RootTabParamList>();
 
 const DashboardTabs = () => {
   return (
-    <>
-      <Tab.Navigator
-        initialRouteName="Chats"
-        screenOptions={({ route }) => ({
-          headerShown: false,
-          tabBarIcon: ({ focused, color, size }) => {
-            if (route.name === "Chats") {
-              return focused ? (
-                <ChatBubbleLeftRightSolidIcon size={size} color={color} />
-              ) : (
-                <ChatBubbleLeftRightIcon size={size} color={color} />
-              );
-            } else if (route.name === "Settings") {
-              return focused ? (
-                <Cog8ToothSolidIcon size={size} color={color} />
-              ) : (
-                <Cog8ToothIcon size={size} color={color} />
-              );
-            }
-          },
-          tabBarActiveTintColor: theme.secColor,
-          tabBarInactiveTintColor: theme.bgColor,
-          tabBarLabelStyle: { fontWeight: "600" },
-        })}
-      >
-        <Tab.Screen name="Chats" component={ChatsScreen} />
-        <Tab.Screen name="Settings" component={SettingsScreen} />
-      </Tab.Navigator>
-    </>
+    <Tab.Navigator
+      initialRouteName="Chats"
+      screenOptions={({ route }) => ({
+        headerShown: false,
+        tabBarIcon: ({ focused, color, size }) => {
+          if (route.name === "Chats") {
+            return focused ? (
+              <ChatBubbleLeftRightSolidIcon size={size} color={color} />
+            ) : (
+              <ChatBubbleLeftRightIcon size={size} color={color} />
+            );
+          } else if (route.name === "Settings") {
+            return focused ? (
+              <Cog8ToothSolidIcon size={size} color={color} />
+            ) : (
+              <Cog8ToothIcon size={size} color={color} />
+            );
+          }
+        },
+        tabBarActiveTintColor: theme.secColor,
+        tabBarInactiveTintColor: theme.bgColor,
+        tabBarLabelStyle: { fontWeight: "600" },
+      })}
+    >
+      <Tab.Screen name="Chats" component={ChatNavigation} />
+      <Tab.Screen name="Settings" component={SettingsScreen} />
+    </Tab.Navigator>
   );
 };
 

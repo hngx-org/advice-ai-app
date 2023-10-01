@@ -15,11 +15,15 @@ import { PlusIcon } from "react-native-heroicons/solid";
 import Animated, { FadeInUp } from "react-native-reanimated";
 import { images } from "../assets/images";
 
-type Props = NativeStackScreenProps<RootTabParamList, "Chats">;
+import UserAvatar from "react-native-user-avatar";
+import { ChatsStackParamList } from "../navigation/ChatNavigation";
+
+type Props = NativeStackScreenProps<ChatsStackParamList, "_Chats">;
 
 const ChatsScreen = ({ navigation }: Props) => {
-  const dummyMessages: any[] = [];
-  // [1, 2, 3, 4, 5, 12, 22, 32, 42, 52, 11, 21, 31, 14, 15];
+  const dummyMessages: any[] = [
+    // 1, 2, 3, 4, 5, 12, 22, 32, 42, 52, 11, 21, 31, 14, 15,
+  ];
 
   return (
     <AppScreen style={{ paddingHorizontal: 0 }}>
@@ -72,10 +76,10 @@ const ChatsScreen = ({ navigation }: Props) => {
           <Text
             style={{ color: theme.textLight, fontSize: 14, fontWeight: "300" }}
           >
-            You didn't made any advice conversation yet
+            You have not make any advice conversation yet
           </Text>
 
-          <TouchableOpacity onPress={() => {}}>
+          <TouchableOpacity onPress={() => navigation.navigate("_ChatDisplay")}>
             <Text
               style={{
                 marginTop: 16,
@@ -98,19 +102,22 @@ const ChatsScreen = ({ navigation }: Props) => {
                   flexDirection: "row",
                   alignItems: "center",
                   justifyContent: "space-between",
-                  gap: 16,
+                  gap: 10,
                   borderBottomWidth: 0.3,
                   borderBottomColor: theme.textDark,
                   paddingHorizontal: 24,
                 }}
               >
+                <View style={{ flexShrink: 0 }}>
+                  <UserAvatar size={35} name="Car Advice" />
+                </View>
                 <View style={{ flex: 1 }}>
                   <Text
                     style={{
                       color: theme.textLight,
                       fontWeight: "500",
                       fontSize: 16,
-                      marginBottom: 4,
+                      marginBottom: 2,
                     }}
                   >
                     Car Advice
@@ -122,7 +129,7 @@ const ChatsScreen = ({ navigation }: Props) => {
                       fontSize: 12,
                     }}
                   >
-                    Assuming you are asking for advice on how to get a car...
+                    Assuming you are asking for advice on how to...
                   </Text>
                 </View>
 
@@ -148,7 +155,7 @@ const ChatsScreen = ({ navigation }: Props) => {
       {dummyMessages.length > 0 && (
         <TouchableOpacity
           activeOpacity={0.7}
-          onPress={() => {}}
+          onPress={() => navigation.navigate("_ChatDisplay")}
           style={{
             position: "absolute",
             width: 50,
