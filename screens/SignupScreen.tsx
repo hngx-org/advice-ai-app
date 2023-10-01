@@ -1,5 +1,5 @@
 import { StyleSheet, Image, View, Text, TouchableOpacity } from "react-native";
-import React from "react";
+import React, { useState } from "react";
 import { NativeStackScreenProps } from "@react-navigation/native-stack";
 import { RootStackParamList } from "../navigation/AppNavigation";
 import {
@@ -11,10 +11,55 @@ import {
 import { images } from "../assets/images";
 import { theme } from "../theme";
 import Animated, { FadeInDown, FadeInUp } from "react-native-reanimated";
+import Toast from "react-native-root-toast";
+import { EMAIL_REG } from "../utils/constants";
+import { handleSignup } from "../services/auth";
 
 type Props = NativeStackScreenProps<RootStackParamList, "Signup">;
 
 const SignupScreen = ({ navigation }: Props) => {
+  const [fullName, setFullName] = useState("");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [confirmPassword, setConfirmPassword] = useState("");
+
+  const [isLoading, setIsLoading] = useState(false);
+
+  async function handleSubmit() {
+    if (
+      !fullName.trim() ||
+      !email.trim() ||
+      !password.trim() ||
+      !confirmPassword.trim()
+    ) {
+      Toast.show("All fields are required!");
+    } else if (EMAIL_REG.test(email) === false) {
+      Toast.show("Invalid email!");
+    } else if (password !== confirmPassword) {
+      Toast.show("Passwords mismatch!");
+    } else {
+      setIsLoading(true);
+
+      const data = {
+        name: fullName.trim(),
+        email: email,
+        password: password,
+        confirm_password: confirmPassword,
+      };
+
+      await handleSignup(data, () => {
+        setFullName("");
+        setEmail("");
+        setPassword("");
+        setConfirmPassword("");
+
+        navigation.navigate("Login", { email: data.email });
+      });
+
+      setIsLoading(false);
+    }
+  }
+
   return (
     <AppScreen isScrollable={true}>
       <BackButton />
@@ -60,7 +105,12 @@ const SignupScreen = ({ navigation }: Props) => {
         }}
       >
         <Animated.View entering={FadeInDown.delay(0).duration(500).springify()}>
-          <InputField label="Name" placeholder="Enter your full name" />
+          <InputField
+            label="Name"
+            placeholder="Enter your full name"
+            value={fullName}
+            onChangeText={(value) => setFullName(value.trimStart())}
+          />
         </Animated.View>
 
         <Animated.View
@@ -69,6 +119,10 @@ const SignupScreen = ({ navigation }: Props) => {
           <InputField
             label="Email Address"
             placeholder="Enter your email address"
+            value={email}
+            onChangeText={(value) => setEmail(value.trim())}
+            textContentType="emailAddress"
+            autoCapitalize="none"
           />
         </Animated.View>
 
@@ -78,6 +132,9 @@ const SignupScreen = ({ navigation }: Props) => {
           <InputField
             label="Password"
             placeholder="Enter your password"
+            value={password}
+            onChangeText={(value) => setPassword(value)}
+            textContentType="password"
             secureTextEntry
           />
         </Animated.View>
@@ -88,6 +145,9 @@ const SignupScreen = ({ navigation }: Props) => {
           <InputField
             label="Confirm Password"
             placeholder="Enter your password"
+            value={confirmPassword}
+            onChangeText={(value) => setConfirmPassword(value)}
+            textContentType="password"
             secureTextEntry
           />
         </Animated.View>
@@ -97,9 +157,10 @@ const SignupScreen = ({ navigation }: Props) => {
         >
           <CustomButton
             text="Sign Up"
-            onPress={() => navigation.navigate("DashboardTab")}
+            onPress={() => handleSubmit()}
             textStyle={{ fontSize: 16 }}
             buttonStyle={{ marginVertical: 20 }}
+            isLoading={isLoading}
           />
 
           <View

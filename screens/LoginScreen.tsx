@@ -1,5 +1,5 @@
 import { StyleSheet, Image, View, Text, TouchableOpacity } from "react-native";
-import React from "react";
+import React, { useState } from "react";
 import { NativeStackScreenProps } from "@react-navigation/native-stack";
 import { RootStackParamList } from "../navigation/AppNavigation";
 import {
@@ -11,10 +11,40 @@ import {
 import { images } from "../assets/images";
 import { theme } from "../theme";
 import Animated, { FadeInDown, FadeInUp } from "react-native-reanimated";
+import Toast from "react-native-root-toast";
+import { EMAIL_REG } from "../utils/constants";
+import { handleLogin } from "../services/auth";
 
 type Props = NativeStackScreenProps<RootStackParamList, "Login">;
 
-const LoginScreen = ({ navigation }: Props) => {
+const LoginScreen = ({ navigation, route }: Props) => {
+  const [email, setEmail] = useState(route.params?.email || "");
+  const [password, setPassword] = useState("");
+
+  const [isLoading, setIsLoading] = useState(false);
+
+  async function handleSubmit() {
+    if (!email.trim() || !password.trim()) {
+      Toast.show("All fields are required!");
+    } else if (EMAIL_REG.test(email) === false) {
+      Toast.show("Invalid email!");
+    } else {
+      setIsLoading(true);
+
+      const data = {
+        email: email,
+        password: password,
+      };
+
+      await handleLogin(data, () => {
+        setEmail("");
+        setPassword("");
+      });
+
+      setIsLoading(false);
+    }
+  }
+
   return (
     <AppScreen isScrollable={true}>
       <BackButton />
@@ -63,6 +93,10 @@ const LoginScreen = ({ navigation }: Props) => {
           <InputField
             label="Email Address"
             placeholder="Enter your email address"
+            value={email}
+            onChangeText={(value) => setEmail(value.trim())}
+            textContentType="emailAddress"
+            autoCapitalize="none"
           />
         </Animated.View>
 
@@ -72,6 +106,9 @@ const LoginScreen = ({ navigation }: Props) => {
           <InputField
             label="Password"
             placeholder="Enter your password"
+            value={password}
+            onChangeText={(value) => setPassword(value)}
+            textContentType="password"
             secureTextEntry
           />
 
@@ -100,7 +137,8 @@ const LoginScreen = ({ navigation }: Props) => {
         >
           <CustomButton
             text="Login"
-            onPress={() => navigation.navigate("DashboardTab")}
+            onPress={() => handleSubmit()}
+            isLoading={isLoading}
             textStyle={{ fontSize: 16 }}
             buttonStyle={{ marginVertical: 20 }}
           />
