@@ -10,12 +10,12 @@ export default function BackButton() {
   return (
     <View style={{ flexDirection: "row", marginBottom: 16 }}>
       <TouchableOpacity
+        activeOpacity={0.7}
         onPress={() => navigation.goBack()}
         style={{
           backgroundColor: theme.secColor,
           padding: 8,
-          borderTopRightRadius: 16,
-          borderBottomLeftRadius: 16,
+          borderRadius: 4,
         }}
       >
         <ArrowLeftIcon size="20" color={theme.textDark} />

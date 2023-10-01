@@ -1,24 +1,20 @@
 import { StyleSheet } from "react-native";
 import React from "react";
-import DashboardScreen from "../screens/DashboardScreen";
+import ChatsScreen from "../screens/ChatsScreen";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
-import HistoryScreen from "../screens/HistoryScreen";
 import SettingsScreen from "../screens/SettingsScreen";
 import {
-  CircleStackIcon as CircleStackSolidIcon,
+  ChatBubbleLeftRightIcon as ChatBubbleLeftRightSolidIcon,
   Cog8ToothIcon as Cog8ToothSolidIcon,
-  RectangleGroupIcon as RectangleGroupSolidIcon,
 } from "react-native-heroicons/solid";
 import {
-  CircleStackIcon,
+  ChatBubbleLeftRightIcon,
   Cog8ToothIcon,
-  RectangleGroupIcon,
 } from "react-native-heroicons/outline";
 import { theme } from "../theme";
 
 export type RootTabParamList = {
-  Dashboard: undefined;
-  History: undefined;
+  Chats: undefined;
   Settings: undefined;
 };
 
@@ -28,21 +24,15 @@ const DashboardTabs = () => {
   return (
     <>
       <Tab.Navigator
-        initialRouteName="Dashboard"
+        initialRouteName="Chats"
         screenOptions={({ route }) => ({
           headerShown: false,
           tabBarIcon: ({ focused, color, size }) => {
-            if (route.name === "Dashboard") {
+            if (route.name === "Chats") {
               return focused ? (
-                <RectangleGroupSolidIcon size={size} color={color} />
+                <ChatBubbleLeftRightSolidIcon size={size} color={color} />
               ) : (
-                <RectangleGroupIcon size={size} color={color} />
-              );
-            } else if (route.name === "History") {
-              return focused ? (
-                <CircleStackSolidIcon size={size} color={color} />
-              ) : (
-                <CircleStackIcon size={size} color={color} />
+                <ChatBubbleLeftRightIcon size={size} color={color} />
               );
             } else if (route.name === "Settings") {
               return focused ? (
@@ -57,8 +47,7 @@ const DashboardTabs = () => {
           tabBarLabelStyle: { fontWeight: "600" },
         })}
       >
-        <Tab.Screen name="Dashboard" component={DashboardScreen} />
-        <Tab.Screen name="History" component={HistoryScreen} />
+        <Tab.Screen name="Chats" component={ChatsScreen} />
         <Tab.Screen name="Settings" component={SettingsScreen} />
       </Tab.Navigator>
     </>

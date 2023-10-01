@@ -54,7 +54,7 @@ const LoginScreen = ({ navigation }: Props) => {
       <View
         style={{
           backgroundColor: theme.textLight,
-          borderRadius: 10,
+          borderRadius: 4,
           paddingVertical: 30,
           paddingHorizontal: 24,
         }}

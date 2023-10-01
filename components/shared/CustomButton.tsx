@@ -1,5 +1,4 @@
 import {
-  View,
   Text,
   TouchableOpacity,
   GestureResponderEvent,
@@ -18,6 +17,7 @@ interface Props {
 const CustomButton = ({ onPress, text, buttonStyle, textStyle }: Props) => {
   return (
     <TouchableOpacity
+      activeOpacity={0.7}
       onPress={onPress}
       style={{
         alignItems: "center",
