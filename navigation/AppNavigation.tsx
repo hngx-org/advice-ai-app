@@ -11,7 +11,7 @@ export type RootStackParamList = {
   Welcome: undefined;
   Login: undefined;
   Signup: undefined;
-  Dashboard: undefined;
+  DashboardTab: undefined;
 };
 
 const Stack = createNativeStackNavigator<RootStackParamList>();
@@ -27,7 +27,7 @@ const AppNavigation = () => {
         <Stack.Screen name="Login" component={LoginScreen} />
         <Stack.Screen name="Signup" component={SignupScreen} />
 
-        <Stack.Screen name="Dashboard" component={DashboardTabs} />
+        <Stack.Screen name="DashboardTab" component={DashboardTabs} />
       </Stack.Navigator>
     </NavigationContainer>
   );

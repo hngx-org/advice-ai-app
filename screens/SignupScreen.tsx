@@ -97,7 +97,7 @@ const SignupScreen = ({ navigation }: Props) => {
         >
           <CustomButton
             text="Sign Up"
-            onPress={() => navigation.navigate("Dashboard")}
+            onPress={() => navigation.navigate("DashboardTab")}
             textStyle={{ fontSize: 16 }}
             buttonStyle={{ marginVertical: 20 }}
           />

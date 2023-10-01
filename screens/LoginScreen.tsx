@@ -100,7 +100,7 @@ const LoginScreen = ({ navigation }: Props) => {
         >
           <CustomButton
             text="Login"
-            onPress={() => navigation.navigate("Dashboard")}
+            onPress={() => navigation.navigate("DashboardTab")}
             textStyle={{ fontSize: 16 }}
             buttonStyle={{ marginVertical: 20 }}
           />
