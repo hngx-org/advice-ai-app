@@ -18,7 +18,7 @@ const initialState: InitialState = {
     name: "",
     updated_at: "",
   },
-  isLoggedIn: false,
+  isLoggedIn: true,
 };
 
 export const authSlice = createSlice({

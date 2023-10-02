@@ -6,7 +6,7 @@ import {
   View,
   Image,
 } from "react-native";
-import React from "react";
+import * as React from "react";
 import { NativeStackScreenProps } from "@react-navigation/native-stack";
 import { AppScreen } from "../components/shared";
 import { theme } from "../theme";
