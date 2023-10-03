@@ -5,8 +5,9 @@ import {
   TouchableOpacity,
   View,
   Image,
+  FlatList,
 } from "react-native";
-import * as React from "react";
+import React, { useEffect, useState } from "react";
 import { NativeStackScreenProps } from "@react-navigation/native-stack";
 import { AppScreen } from "../components/shared";
 import { theme } from "../theme";
@@ -16,14 +17,70 @@ import { images } from "../assets/images";
 
 import UserAvatar from "react-native-user-avatar";
 import { ChatsStackParamList } from "../navigation/ChatNavigation";
+import uuid from "react-native-uuid";
+import { useAppSelector } from "../redux/store";
+import { conversationHistoryselector } from "../redux/slices/conversationHistorySlice";
+
 
 type Props = NativeStackScreenProps<ChatsStackParamList, "_Chats">;
 
+
+const baseUrl = "https://spitfire-interractions.onrender.com/";
+
+
 const ChatsScreen = ({ navigation }: Props) => {
+
+  const [userQuery, setUserQuery] = useState<string>("");
+  const [advice, setAdvice] = useState<string>("");
+
+
+  const { history } = useAppSelector(conversationHistoryselector);
+
+  console.log({ history });
+
+
+
+
+  const getSignedInUser = async () => {
+    const req = await fetch(`${baseUrl}/api/auth/@me`);
+    const user = await req.json();
+    console.log(user);
+
+    // setUser({name: user.data.name, id: user.data.id, email: user.data.email});
+  };
+
+
   const dummyMessages: any[] = [
     // 1, 2, 3, 4, 5, 12, 22, 32, 42, 52, 11, 21, 31, 14, 15,
+
+    "user: law",
+    "AI: As an AI language model, I can provide some general advice on the topic of law...",
+    "user: question1",
+    "AI: Response to question1...",
+    "user: question2",
+    "AI: Response to question2...",
+
+    "user: question2",
+    "AI: Response to question2...", "user: question2",
+    "AI: Response to question2...", "user: question2",
+    "AI: Response to question2...", "user: question2",
+    "AI: Response to question2...",
   ];
 
+  // useEffect(() => {
+  //   getSignedInUser();
+  // }, [])
+
+
+  const groupedMessages: any[] = [
+    // your array values here
+  ];
+
+  for (let i = 0; i < history.length; i += 2) {
+    const userMessage = dummyMessages[i];
+    const aiMessage = dummyMessages[i + 1];
+    groupedMessages.push({ user: userMessage, ai: aiMessage });
+  }
   return (
     <AppScreen style={{ paddingHorizontal: 0 }}>
       <View
@@ -45,7 +102,7 @@ const ChatsScreen = ({ navigation }: Props) => {
         </Text>
       </View>
 
-      {dummyMessages.length === 0 ? (
+      {groupedMessages.length === 0 ? (
         <View
           style={{ flex: 1, alignItems: "center", justifyContent: "center" }}
         >
@@ -93,8 +150,11 @@ const ChatsScreen = ({ navigation }: Props) => {
         </View>
       ) : (
         <ScrollView>
-          {dummyMessages.map((item) => (
-            <TouchableOpacity key={item}>
+          {groupedMessages.map((item) => (
+            <TouchableOpacity key={item}
+              onPress={() => navigation.navigate("_ChatDisplay")}
+
+            >
               <View
                 style={{
                   paddingVertical: 16,
@@ -167,6 +227,7 @@ const ChatsScreen = ({ navigation }: Props) => {
             borderRadius: 50,
           }}
         >
+
           <PlusIcon size="30" color={theme.textDark} />
         </TouchableOpacity>
       )}
@@ -176,4 +237,23 @@ const ChatsScreen = ({ navigation }: Props) => {
 
 export default ChatsScreen;
 
-const styles = StyleSheet.create({});
+
+const styles = StyleSheet.create({
+  messageContainer: {
+    padding: 10,
+    marginVertical: 5,
+    borderRadius: 10,
+    maxWidth: '70%',
+  },
+  leftMessage: {
+    alignSelf: 'flex-start',
+    backgroundColor: '#f0f0f0',
+  },
+  rightMessage: {
+    alignSelf: 'flex-end',
+    backgroundColor: '#e0e0e0',
+  },
+  messageText: {
+    fontSize: 16,
+  },
+});
