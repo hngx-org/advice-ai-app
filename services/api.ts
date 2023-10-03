@@ -1,7 +1,7 @@
 import axios from "axios";
 import Toast from "react-native-toast-message";
 
-const BASE_URL = "https://spitfire-openai.onrender.com/api";
+const BASE_URL = "https://spitfire-interractions.onrender.com/api";
 
 const defaultOptions = {
   baseURL: BASE_URL,
