@@ -77,8 +77,8 @@ const ChatsScreen = ({ navigation }: Props) => {
   ];
 
   for (let i = 0; i < history.length; i += 2) {
-    const userMessage = dummyMessages[i];
-    const aiMessage = dummyMessages[i + 1];
+    const userMessage = history[i];
+    const aiMessage = history[i + 1];
     groupedMessages.push({ user: userMessage, ai: aiMessage });
   }
   return (
