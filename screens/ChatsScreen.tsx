@@ -17,29 +17,20 @@ import { images } from "../assets/images";
 
 import UserAvatar from "react-native-user-avatar";
 import { ChatsStackParamList } from "../navigation/ChatNavigation";
-import uuid from "react-native-uuid";
 import { useAppSelector } from "../redux/store";
 import { conversationHistoryselector } from "../redux/slices/conversationHistorySlice";
 
-
 type Props = NativeStackScreenProps<ChatsStackParamList, "_Chats">;
-
 
 const baseUrl = "https://spitfire-interractions.onrender.com/";
 
-
 const ChatsScreen = ({ navigation }: Props) => {
-
   const [userQuery, setUserQuery] = useState<string>("");
   const [advice, setAdvice] = useState<string>("");
-
 
   const { history } = useAppSelector(conversationHistoryselector);
 
   console.log({ history });
-
-
-
 
   const getSignedInUser = async () => {
     const req = await fetch(`${baseUrl}/api/auth/@me`);
@@ -48,7 +39,6 @@ const ChatsScreen = ({ navigation }: Props) => {
 
     // setUser({name: user.data.name, id: user.data.id, email: user.data.email});
   };
-
 
   const dummyMessages: any[] = [
     // 1, 2, 3, 4, 5, 12, 22, 32, 42, 52, 11, 21, 31, 14, 15,
@@ -61,16 +51,18 @@ const ChatsScreen = ({ navigation }: Props) => {
     "AI: Response to question2...",
 
     "user: question2",
-    "AI: Response to question2...", "user: question2",
-    "AI: Response to question2...", "user: question2",
-    "AI: Response to question2...", "user: question2",
+    "AI: Response to question2...",
+    "user: question2",
+    "AI: Response to question2...",
+    "user: question2",
+    "AI: Response to question2...",
+    "user: question2",
     "AI: Response to question2...",
   ];
 
   // useEffect(() => {
   //   getSignedInUser();
   // }, [])
-
 
   const groupedMessages: any[] = [
     // your array values here
@@ -154,7 +146,6 @@ const ChatsScreen = ({ navigation }: Props) => {
             <TouchableOpacity
               key={key}
               onPress={() => navigation.navigate("_ChatDisplay")}
-
             >
               <View
                 style={{
@@ -231,7 +222,6 @@ const ChatsScreen = ({ navigation }: Props) => {
             borderRadius: 50,
           }}
         >
-
           <PlusIcon size="30" color={theme.textDark} />
         </TouchableOpacity>
       )}
@@ -241,21 +231,20 @@ const ChatsScreen = ({ navigation }: Props) => {
 
 export default ChatsScreen;
 
-
 const styles = StyleSheet.create({
   messageContainer: {
     padding: 10,
     marginVertical: 5,
     borderRadius: 10,
-    maxWidth: '70%',
+    maxWidth: "70%",
   },
   leftMessage: {
-    alignSelf: 'flex-start',
-    backgroundColor: '#f0f0f0',
+    alignSelf: "flex-start",
+    backgroundColor: "#f0f0f0",
   },
   rightMessage: {
-    alignSelf: 'flex-end',
-    backgroundColor: '#e0e0e0',
+    alignSelf: "flex-end",
+    backgroundColor: "#e0e0e0",
   },
   messageText: {
     fontSize: 16,
