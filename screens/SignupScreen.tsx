@@ -35,6 +35,8 @@ const SignupScreen = ({ navigation }: Props) => {
       Toast.show("All fields are required!");
     } else if (EMAIL_REG.test(email) === false) {
       Toast.show("Invalid email!");
+    } else if (password.length < 8) {
+      Toast.show("Password must have at least 8 characters!");
     } else if (password !== confirmPassword) {
       Toast.show("Passwords mismatch!");
     } else {
