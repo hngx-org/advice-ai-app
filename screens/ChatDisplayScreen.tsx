@@ -38,14 +38,14 @@ const ChatDisplayScreen = ({ navigation }: Props) => {
     try {
       const apiKey = "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";
       const response = await axios.post(
-        "https://api.openai.com/v1/engines/text-davinci-002/completions",
+        "https://spitfire-interractions.onrender.com/api/chat/completions",
         {
           prompt: `Give me advice on "${userQuery}"`,
           max_tokens: 50,
         },
         {
           headers: {
-            Authorization: `Bearer ${apiKey}`,
+            // Authorization: `Bearer ${apiKey}`,
             "Content-Type": "application/json",
           },
         }
