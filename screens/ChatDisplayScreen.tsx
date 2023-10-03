@@ -21,7 +21,10 @@ import { addMessage, conversationHistoryselector } from "../redux/slices/convers
 import { useDispatch } from "react-redux";
 import { useAppSelector } from "../redux/store";
 
-type Props = NativeStackScreenProps<ChatsStackParamList, "_ChatDisplay">;
+type Props = NativeStackScreenProps<
+  ChatsStackParamList & RootTabParamList,
+  "_ChatDisplay"
+>;
 
 const baseUrl = "https://spitfire-interractions.onrender.com/";
 

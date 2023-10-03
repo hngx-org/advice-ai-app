@@ -150,8 +150,9 @@ const ChatsScreen = ({ navigation }: Props) => {
         </View>
       ) : (
         <ScrollView>
-          {groupedMessages.map((item) => (
-            <TouchableOpacity key={item}
+          {groupedMessages.map((item, key) => (
+            <TouchableOpacity
+              key={key}
               onPress={() => navigation.navigate("_ChatDisplay")}
 
             >
@@ -179,7 +180,7 @@ const ChatsScreen = ({ navigation }: Props) => {
                       marginBottom: 2,
                     }}
                   >
-                    Car Advice
+                    Advice
                   </Text>
                   <Text
                     style={{
