@@ -169,7 +169,10 @@ const ChatsScreen = ({ navigation }: Props) => {
                 }}
               >
                 <View style={{ flexShrink: 0 }}>
-                  <UserAvatar size={35} name="Car Advice" />
+                  <UserAvatar
+                    size={35}
+                    name={item?.user.replace("user: ", "")}
+                  />
                 </View>
                 <View style={{ flex: 1 }}>
                   <Text
@@ -180,7 +183,7 @@ const ChatsScreen = ({ navigation }: Props) => {
                       marginBottom: 2,
                     }}
                   >
-                    Advice
+                    {item?.user.replace("user: ", "").substring(0, 20)}
                   </Text>
                   <Text
                     style={{
@@ -189,7 +192,7 @@ const ChatsScreen = ({ navigation }: Props) => {
                       fontSize: 12,
                     }}
                   >
-                    Assuming you are asking for advice on how to...
+                    {item?.ai.substring(0, 50)}...
                   </Text>
                 </View>
 
