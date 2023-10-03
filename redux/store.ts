@@ -2,9 +2,13 @@ import { configureStore, combineReducers } from "@reduxjs/toolkit";
 import { useDispatch, useSelector } from "react-redux";
 import type { TypedUseSelectorHook } from "react-redux";
 import { authReducer } from "./slices/authSlice";
+import { conversationHistoryReducer } from "./slices/conversationHistorySlice";
 
 const appReducers = combineReducers({
   auth: authReducer,
+  conversationHistoryReducer:conversationHistoryReducer
+
+
 });
 
 export const store = configureStore({
