@@ -13,16 +13,20 @@ import React, { useEffect, useState } from "react";
 import { NativeStackScreenProps } from "@react-navigation/native-stack";
 import { AppScreen, InputField } from "../components/shared";
 import { ChatsStackParamList } from "../navigation/ChatNavigation";
-import axios from "axios";
 import { Ionicons } from "@expo/vector-icons";
 import { theme } from "../theme";
 import { useSelector } from "react-redux";
-import { addMessage, conversationHistoryselector } from "../redux/slices/conversationHistorySlice";
+import {
+  addMessage,
+  conversationHistoryselector,
+} from "../redux/slices/conversationHistorySlice";
 import { useDispatch } from "react-redux";
 import { useAppSelector } from "../redux/store";
+import { RootTabParamList } from "../navigation/DashboardTabs";
+import { SettingsStackParamList } from "../navigation/SettingsNavigation";
 
 type Props = NativeStackScreenProps<
-  ChatsStackParamList & RootTabParamList,
+  ChatsStackParamList & RootTabParamList & SettingsStackParamList,
   "_ChatDisplay"
 >;
 
@@ -35,13 +39,7 @@ const ChatDisplayScreen = ({ navigation }: Props) => {
   const [conversationHistory, setConversationHistory] = useState<string[]>([]);
   const dispatch = useDispatch();
 
-
   const { history } = useAppSelector(conversationHistoryselector);
-
-  console.log({ history });
-
-
-
 
   const getSignedInUser = async () => {
     const req = await fetch(`${baseUrl}/api/auth/@me`);
@@ -58,12 +56,15 @@ const ChatDisplayScreen = ({ navigation }: Props) => {
       setIsLoading(true);
 
       if (userQuery) {
-        const newConversationHistory = [...conversationHistory, `user: ${userQuery}`];
+        const newConversationHistory = [
+          ...conversationHistory,
+          `user: ${userQuery}`,
+        ];
 
         const req = await fetch(`${baseUrl}/api/chat/completions`, {
-          method: 'POST',
+          method: "POST",
           headers: {
-            'Content-Type': 'application/json',
+            "Content-Type": "application/json",
           },
           body: JSON.stringify({
             history: newConversationHistory,
@@ -77,11 +78,14 @@ const ChatDisplayScreen = ({ navigation }: Props) => {
           Alert.alert(
             "Alert",
             `${response?.error} ${response?.message}`,
-            [{ text: "OK", onPress: () => navigation.navigate("Settings") }],
+            [{ text: "OK", onPress: () => navigation.navigate("_Subscribe") }],
             { cancelable: false }
           );
         } else {
-          const updatedConversationHistory = [...newConversationHistory, `AI: ${response?.message}`];
+          const updatedConversationHistory = [
+            ...newConversationHistory,
+            `AI: ${response?.message}`,
+          ];
           setConversationHistory(updatedConversationHistory);
           dispatch(addMessage(updatedConversationHistory));
           setAdvice(response?.message);
@@ -92,14 +96,9 @@ const ChatDisplayScreen = ({ navigation }: Props) => {
 
       setIsLoading(false);
     } catch (error: any) {
-
-      Alert.alert(
-        "Alert",
-        `${error} `,
-        [{ text: "OK" }],
-        { cancelable: false }
-      );
-
+      Alert.alert("Alert", `${error} `, [{ text: "OK" }], {
+        cancelable: false,
+      });
     }
   };
 
@@ -120,21 +119,23 @@ const ChatDisplayScreen = ({ navigation }: Props) => {
 
       <FlatList // Use FlatList to display conversation history
         data={history}
-        renderItem={({ item, index }) => {
-
-          return (
-
-            <View style={[styles.messageContainer, index % 2 === 0 ? styles.leftMessage : styles.rightMessage]}>
-              <Text style={styles.messageText}>{item}</Text>
-            </View>
-          )
-        }
+        renderItem={
+          ({ item, index }) => {
+            return (
+              <View
+                style={[
+                  styles.messageContainer,
+                  index % 2 === 0 ? styles.leftMessage : styles.rightMessage,
+                ]}
+              >
+                <Text style={styles.messageText}>{item}</Text>
+              </View>
+            );
+          }
 
           // (
           //   <Text style={{ color: "white", fontSize: 18 }}>{item}</Text>
           // )
-
-
         }
         keyExtractor={(item, index) => index.toString()}
       />
@@ -169,23 +170,20 @@ const ChatDisplayScreen = ({ navigation }: Props) => {
   );
 };
 
-
-
-
 const styles = StyleSheet.create({
   messageContainer: {
     padding: 10,
     marginVertical: 5,
     borderRadius: 10,
-    maxWidth: '70%',
+    maxWidth: "70%",
   },
   leftMessage: {
-    alignSelf: 'flex-start',
-    backgroundColor: '#f0f0f0',
+    alignSelf: "flex-start",
+    backgroundColor: "#f0f0f0",
   },
   rightMessage: {
-    alignSelf: 'flex-end',
-    backgroundColor: '#e0e0e0',
+    alignSelf: "flex-end",
+    backgroundColor: "#e0e0e0",
   },
   messageText: {
     fontSize: 16,

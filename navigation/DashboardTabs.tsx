@@ -12,6 +12,7 @@ import {
 } from "react-native-heroicons/outline";
 import { theme } from "../theme";
 import ChatNavigation from "./ChatNavigation";
+import SettingsNavigation from "./SettingsNavigation";
 
 export type RootTabParamList = {
   Chats: undefined;
@@ -47,7 +48,7 @@ const DashboardTabs = () => {
       })}
     >
       <Tab.Screen name="Chats" component={ChatNavigation} />
-      <Tab.Screen name="Settings" component={SettingsScreen} />
+      <Tab.Screen name="Settings" component={SettingsNavigation} />
     </Tab.Navigator>
   );
 };

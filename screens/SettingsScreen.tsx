@@ -8,8 +8,12 @@ import { handleLogout } from "../services/auth";
 import UserAvatar from "react-native-user-avatar";
 import { useAppSelector } from "../redux/store";
 import { selectUserProfile } from "../redux/slices/authSlice";
+import { SettingsStackParamList } from "../navigation/SettingsNavigation";
 
-type Props = NativeStackScreenProps<RootTabParamList, "Settings">;
+type Props = NativeStackScreenProps<
+  SettingsStackParamList & RootTabParamList,
+  "_Settings"
+>;
 
 const SettingsScreen = ({ navigation }: Props) => {
   const [isLoading, setIsLoading] = useState(false);
@@ -28,7 +32,6 @@ const SettingsScreen = ({ navigation }: Props) => {
       <View style={{ alignItems: "center", marginVertical: 20 }}>
         <UserAvatar size={120} name={userProfile.name} />
       </View>
-
       <View style={{ flex: 1, gap: 2 }}>
         <Text
           style={{
@@ -76,6 +79,11 @@ const SettingsScreen = ({ navigation }: Props) => {
         </View>
       </View>
 
+      <CustomButton
+        text="Upgrade to PRO"
+        onPress={() => navigation.navigate("_Subscribe")}
+        buttonStyle={{ marginVertical: 16 }}
+      />
       <CustomButton
         text="Logout"
         onPress={() => handleLogoutClick()}
