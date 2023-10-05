@@ -27,5 +27,16 @@ export function handleErrorMessage(message: string) {
 }
 
 export function handleRequestError(error: any) {
-  handleErrorMessage(error?.response?.data?.message);
+  const errorToShow =
+    error?.response?.data?.message || error?.response?.data?.content;
+
+  if (typeof errorToShow === "string") {
+    return handleErrorMessage(errorToShow);
+  } else if (typeof errorToShow === "object" && errorToShow.length > 0) {
+    errorToShow.map((err: any) =>
+      handleErrorMessage(`(${err.field}): ${err.error}`)
+    );
+  } else {
+    handleErrorMessage("An error occurred");
+  }
 }
