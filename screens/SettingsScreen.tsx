@@ -29,13 +29,12 @@ const SettingsScreen = ({ navigation }: Props) => {
         <UserAvatar size={120} name={userProfile.name} />
       </View>
 
-      <View style={{ flex: 1 }}>
+      <View style={{ flex: 1, gap: 2 }}>
         <Text
           style={{
             color: theme.textLight,
             fontWeight: "500",
-            fontSize: 16,
-            marginBottom: 2,
+            fontSize: 18,
             textAlign: "center",
           }}
         >
@@ -43,20 +42,45 @@ const SettingsScreen = ({ navigation }: Props) => {
         </Text>
         <Text
           style={{
-            color: theme.textLight,
-            fontWeight: "200",
-            fontSize: 12,
+            color: theme.placeholderColor,
+            fontWeight: "400",
+            fontSize: 14,
             textAlign: "center",
           }}
         >
           {userProfile.email}
         </Text>
+        <View
+          style={{
+            flexDirection: "row",
+            alignItems: "center",
+            justifyContent: "center",
+          }}
+        >
+          <Text
+            style={{
+              fontWeight: "400",
+              fontSize: 14,
+              textAlign: "center",
+              marginVertical: 4,
+              paddingHorizontal: 10,
+              paddingVertical: 4,
+              color: theme.textDark,
+              backgroundColor: theme.textLight,
+              borderRadius: 10,
+            }}
+          >
+            {userProfile.credits} credit{userProfile.credits > 1 ? "s" : ""}{" "}
+            left
+          </Text>
+        </View>
       </View>
 
       <CustomButton
         text="Logout"
         onPress={() => handleLogoutClick()}
         buttonStyle={{ backgroundColor: "tomato" }}
+        textStyle={{ color: theme.textLight }}
         isLoading={isLoading}
       />
     </AppScreen>

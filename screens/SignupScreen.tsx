@@ -18,7 +18,7 @@ import { handleSignup } from "../services/auth";
 type Props = NativeStackScreenProps<RootStackParamList, "Signup">;
 
 const SignupScreen = ({ navigation }: Props) => {
-  const [fullName, setFullName] = useState("");
+  const [username, setUsername] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
@@ -26,12 +26,7 @@ const SignupScreen = ({ navigation }: Props) => {
   const [isLoading, setIsLoading] = useState(false);
 
   async function handleSubmit() {
-    if (
-      !fullName.trim() ||
-      !email.trim() ||
-      !password.trim() ||
-      !confirmPassword.trim()
-    ) {
+    if (!username || !email || !password || !confirmPassword) {
       Toast.show("All fields are required!");
     } else if (EMAIL_REG.test(email) === false) {
       Toast.show("Invalid email!");
@@ -43,14 +38,14 @@ const SignupScreen = ({ navigation }: Props) => {
       setIsLoading(true);
 
       const data = {
-        name: fullName.trim(),
+        name: username.replace(" ", ""),
         email: email,
         password: password,
         confirm_password: confirmPassword,
       };
 
       await handleSignup(data, () => {
-        setFullName("");
+        setUsername("");
         setEmail("");
         setPassword("");
         setConfirmPassword("");
@@ -108,10 +103,10 @@ const SignupScreen = ({ navigation }: Props) => {
       >
         <Animated.View entering={FadeInDown.delay(0).duration(500).springify()}>
           <InputField
-            label="Name"
-            placeholder="Enter your full name"
-            value={fullName}
-            onChangeText={(value) => setFullName(value.trimStart())}
+            label="Userame"
+            placeholder="Enter your username"
+            value={username}
+            onChangeText={(value) => setUsername(value.trim())}
           />
         </Animated.View>
 
