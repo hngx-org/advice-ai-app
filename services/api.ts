@@ -27,7 +27,8 @@ export function handleErrorMessage(message: string) {
 }
 
 export function handleRequestError(error: any) {
-  const errorToShow = error?.response?.data?.message;
+  const errorToShow =
+    error?.response?.data?.message || error?.response?.data?.content;
 
   if (typeof errorToShow === "string") {
     return handleErrorMessage(errorToShow);

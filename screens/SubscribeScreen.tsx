@@ -17,6 +17,7 @@ import {
   XMarkIcon,
 } from "react-native-heroicons/solid";
 import SubscribeItem from "../components/subscribe/SubscribeItem";
+import { PAYSTACK_API_KEY } from "../utils/constants";
 
 type Props = NativeStackScreenProps<
   SettingsStackParamList & RootTabParamList,
@@ -99,7 +100,7 @@ const SubscribeScreen = ({ navigation }: Props) => {
 
       {triggerPayment && (
         <Paystack
-          paystackKey="pk_test_1b2457a1897c722b029977981689917880202d40"
+          paystackKey={PAYSTACK_API_KEY}
           amount={5000}
           billingEmail={userProfile.email}
           billingName={userProfile.name}

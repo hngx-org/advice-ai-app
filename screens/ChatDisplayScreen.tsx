@@ -2,20 +2,18 @@ import {
   Text,
   View,
   TextInput,
-  Button,
   FlatList, // Import FlatList
   TouchableOpacity,
   ActivityIndicator,
   Alert,
   StyleSheet,
 } from "react-native";
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { NativeStackScreenProps } from "@react-navigation/native-stack";
-import { AppScreen, InputField } from "../components/shared";
+import { AppScreen } from "../components/shared";
 import { ChatsStackParamList } from "../navigation/ChatNavigation";
 import { Ionicons } from "@expo/vector-icons";
 import { theme } from "../theme";
-import { useSelector } from "react-redux";
 import {
   addMessage,
   conversationHistoryselector,
@@ -24,81 +22,80 @@ import { useDispatch } from "react-redux";
 import { useAppSelector } from "../redux/store";
 import { RootTabParamList } from "../navigation/DashboardTabs";
 import { SettingsStackParamList } from "../navigation/SettingsNavigation";
+import { handleRequestError } from "../services/api";
+import Toast from "react-native-root-toast";
+import { handleAIPrompt } from "../services/chats";
 
 type Props = NativeStackScreenProps<
   ChatsStackParamList & RootTabParamList & SettingsStackParamList,
   "_ChatDisplay"
 >;
 
-const baseUrl = "https://spitfire-interractions.onrender.com/";
-
 const ChatDisplayScreen = ({ navigation }: Props) => {
   const [userQuery, setUserQuery] = useState<string>("");
-  const [advice, setAdvice] = useState<string>("");
   const [isLoading, setIsLoading] = useState(false);
   const [conversationHistory, setConversationHistory] = useState<string[]>([]);
   const dispatch = useDispatch();
 
   const { history } = useAppSelector(conversationHistoryselector);
 
-  const getSignedInUser = async () => {
-    const req = await fetch(`${baseUrl}/api/auth/@me`);
-    const user = await req.json();
-    console.log(user);
-  };
-
-  useEffect(() => {
-    getSignedInUser();
-  }, []);
-
   const handleGetAdvice = async () => {
-    try {
+    setIsLoading(true);
+
+    if (userQuery) {
       setIsLoading(true);
 
-      if (userQuery) {
-        const newConversationHistory = [
-          ...conversationHistory,
-          `user: ${userQuery}`,
-        ];
+      const newConversationHistory = [
+        ...conversationHistory,
+        `user: ${userQuery.trim()}`,
+      ];
 
-        const req = await fetch(`${baseUrl}/api/chat/completions`, {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({
-            history: newConversationHistory,
-            user_input: `Give me advice on "${userQuery}"`,
-          }),
-        });
+      const data = {
+        history: newConversationHistory,
+        user_input: `Give me advice on "${userQuery.trim()}"`,
+      };
 
-        const response = await req.json();
-
-        if (response?.error) {
-          Alert.alert(
-            "Alert",
-            `${response?.error} ${response?.message}`,
-            [{ text: "OK", onPress: () => navigation.navigate("_Subscribe") }],
-            { cancelable: false }
-          );
-        } else {
+      await handleAIPrompt(
+        data,
+        (res) => {
           const updatedConversationHistory = [
             ...newConversationHistory,
-            `AI: ${response?.message}`,
+            `AI: ${res?.data?.message}`,
           ];
           setConversationHistory(updatedConversationHistory);
           dispatch(addMessage(updatedConversationHistory));
-          setAdvice(response?.message);
-        }
-      } else {
-        Alert.alert("Hello, the prompt is empty how can we be of help");
-      }
 
-      setIsLoading(false);
-    } catch (error: any) {
-      Alert.alert("Alert", `${error} `, [{ text: "OK" }], {
-        cancelable: false,
-      });
+          setUserQuery("");
+
+          console.log(res);
+          setIsLoading(false);
+        },
+        (error) => {
+          if (
+            error?.response?.data?.message?.includes(
+              "You do not have enough credits"
+            )
+          ) {
+            Alert.alert(
+              "Alert",
+              error?.response?.data?.message,
+              [
+                {
+                  text: "OK",
+                  onPress: () => navigation.navigate("_Subscribe"),
+                },
+              ],
+              { cancelable: false }
+            );
+          } else {
+            handleRequestError(error);
+          }
+
+          setIsLoading(false);
+        }
+      );
+    } else {
+      Toast.show("Hello, the prompt is empty how can we be of help");
     }
   };
 
@@ -119,31 +116,26 @@ const ChatDisplayScreen = ({ navigation }: Props) => {
 
       <FlatList // Use FlatList to display conversation history
         data={history}
-        renderItem={
-          ({ item, index }) => {
-            return (
-              <View
-                style={[
-                  styles.messageContainer,
-                  index % 2 === 0 ? styles.leftMessage : styles.rightMessage,
-                ]}
-              >
-                <Text style={styles.messageText}>{item}</Text>
-              </View>
-            );
-          }
-
-          // (
-          //   <Text style={{ color: "white", fontSize: 18 }}>{item}</Text>
-          // )
-        }
+        renderItem={({ item, index }) => {
+          return (
+            <View
+              style={[
+                styles.messageContainer,
+                index % 2 === 0 ? styles.leftMessage : styles.rightMessage,
+              ]}
+            >
+              <Text style={styles.messageText}>{item}</Text>
+            </View>
+          );
+        }}
         keyExtractor={(item, index) => index.toString()}
       />
 
       <View>
         <View
           style={{
-            backgroundColor: "#E5E7EB",
+            backgroundColor: theme.inputBgColor,
+            borderRadius: 4,
             flexDirection: "row",
             alignItems: "center",
           }}
@@ -175,7 +167,7 @@ const styles = StyleSheet.create({
     padding: 10,
     marginVertical: 5,
     borderRadius: 10,
-    maxWidth: "70%",
+    maxWidth: "80%",
   },
   leftMessage: {
     alignSelf: "flex-start",
