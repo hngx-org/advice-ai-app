@@ -121,7 +121,7 @@ const ChatDisplayScreen = ({ navigation }: Props) => {
             <View
               style={[
                 styles.messageContainer,
-                index % 2 === 0 ? styles.leftMessage : styles.rightMessage,
+                index % 2 === 0 ? styles.rightMessage : styles.leftMessage,
               ]}
             >
               <Text style={styles.messageText}>{item}</Text>
@@ -175,7 +175,7 @@ const styles = StyleSheet.create({
   },
   rightMessage: {
     alignSelf: "flex-end",
-    backgroundColor: "#e0e0e0",
+    backgroundColor: theme.placeholderColor,
   },
   messageText: {
     fontSize: 16,
